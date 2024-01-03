@@ -6,14 +6,14 @@ export const useProductStore = defineStore('product',{
     list: [{
       name: 'test',
       imageUrl: 'https://fastly.picsum.photos/id/849/200/200.jpg?hmac=LwsdGn2endKvoLY10FPqtfqKYCVMbPEp5J6S_tUN1Yg',
-      quantity: 10,
+      quantity: 1,
       about: 'testt',
       status: 'open',
       price: 100,
     },{
       name: 'test 1234',
       imageUrl: 'https://fastly.picsum.photos/id/849/200/200.jpg?hmac=LwsdGn2endKvoLY10FPqtfqKYCVMbPEp5J6S_tUN1Yg',
-      quantity: 10,
+      quantity: 1,
       about: 'testt',
       status: 'open',
       price: 100,
