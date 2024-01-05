@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
-import {ref, onMounted} from 'vue'
+import {ref, onMounted,reactive,watch} from 'vue'
 import { useCartStore } from '@/stores/user/cart';
 
 const cartStore = useCartStore()
@@ -9,6 +9,9 @@ const isLoggedIn = ref(false)
 const searchText = ref('')
 
 const router = useRouter()
+const userData = reactive({
+  imageUrl: '',
+})
 
 const login = () =>{
     isLoggedIn.value=true
@@ -22,7 +25,13 @@ onMounted(()=>{
     if(localStorage.getItem('isLoggedIn')){
         isLoggedIn.value = true
     }
-})
+    const savedUserProfile = localStorage.getItem('user-profile')
+    if (savedUserProfile) {
+        const userProfile = JSON.parse(savedUserProfile)
+        userData.imageUrl = userProfile.imageUrl
+    }
+  }
+)
 
 const handleSearch = (event) =>{
     if(event.key === 'Enter'){
@@ -72,7 +81,7 @@ const handleSearch = (event) =>{
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                             <div class="w-10 rounded-full">
                                 <img alt="Tailwind CSS Navbar component"
-                                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                    :src="userData.imageUrl" />
                             </div>
                         </div>
                         <ul tabindex="0"

@@ -14,7 +14,7 @@ const changeQuantity =(event, index)=>{
 <template>
   <UserLayout>
     <h1 class="text-3xl font-bold">Shopping Cart</h1>
-    <div class="flex">
+    <div class="flex h-screen">
       <div class="flex-auto w-64 bg-gray-200 p-4">
         <div v-if="cartStore.items.length === 0">
           Cart is empty
@@ -70,7 +70,9 @@ const changeQuantity =(event, index)=>{
           </div>
         </div>
         <div class="mt-4">
-          <button class="btn w-full bg-black text-white">ยืนยัน</button>
+          <RouterLink to="/checkout" class="btn btn-primary w-full">
+            ชำระเงิน
+          </RouterLink>
         </div>
 
       </div>
