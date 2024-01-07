@@ -68,7 +68,7 @@ const router = createRouter({
     {
       path: '/admin/product/update/:id',
       name: 'admin-product-update',
-      component: AdminLogin
+      component: AdminProductUpdate
     },
     {
       path: '/admin/product',
