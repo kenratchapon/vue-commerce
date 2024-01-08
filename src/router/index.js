@@ -72,12 +72,12 @@ const router = createRouter({
     },
     {
       path: '/admin/product',
-      name: 'admin-product-list',
+      name: 'admin-products-list',
       component: AdminProductList
     },
     {
       path: '/admin/user',
-      name: 'admin-user-list',
+      name: 'admin-users-list',
       component: AdminUserList
     },
     {
@@ -92,7 +92,7 @@ const router = createRouter({
     },
     {
       path: '/admin/order/',
-      name: 'admin-order-list',
+      name: 'admin-orders-list',
       component: AdminOrderList
     },
   ]
