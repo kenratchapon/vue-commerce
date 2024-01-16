@@ -28,12 +28,10 @@ export const useAdminProductStore = defineStore('admin-product', {
       localStorage.setItem('admin-products', JSON.stringify(this.list))
     },
     updateProduct(index, productData) {
-      this.list[index].name = productData.name
-      this.list[index].imageUrl = productData.imageUrl
-      this.list[index].price = productData.price
-      this.list[index].quantity = productData.quantity
-      this.list[index].remainQuantity = productData.quantity
-      this.list[index].status = productData.status
+      const fields = ['name','imageUrl','price','quantity','remainQuantity','status']
+      for(field in fields){
+        this.list[index][field] = productData[field]
+      }
       this.list[index].updateAt = (new Date).toISOString()
       localStorage.setItem('admin-products', JSON.stringify(this.list))
     },

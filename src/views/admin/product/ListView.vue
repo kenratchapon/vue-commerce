@@ -3,6 +3,7 @@
 import { RouterLink } from 'vue-router';
 import AdminLayout from '@/layouts/AdminLayout.vue';
 import { useAdminProductStore } from '@/stores/admin/product';
+
 import Trash from '@/components/icons/Trash.vue'
 import Edit from '@/components/icons/Edit.vue'
 import Table from '@/components/Table.vue';
