@@ -29,7 +29,7 @@ export const useAdminProductStore = defineStore('admin-product', {
     },
     updateProduct(index, productData) {
       const fields = ['name','imageUrl','price','quantity','remainQuantity','status']
-      for(field in fields){
+      for(let field of fields){
         this.list[index][field] = productData[field]
       }
       this.list[index].updateAt = (new Date).toISOString()

@@ -5,6 +5,7 @@
   import { useEventStore } from './stores/user/event'
   import { useAdminProductStore } from './stores/admin/product';
   import { useAdminUserStore } from './stores/admin/user';
+  import { useProductStore } from './stores/user/product';
   
   import Toast from '@/components/Toast.vue'
   
@@ -12,11 +13,13 @@
   const cartStore = useCartStore()
   const adminProductStore = useAdminProductStore()
   const adminUserStore = useAdminUserStore()
+  const productStore = useProductStore()
 
   onMounted(() => {
     cartStore.loadCart()
     adminProductStore.loadProduct()
     adminUserStore.loadUser()
+    productStore.loadProduct()
   })
   
 </script>
