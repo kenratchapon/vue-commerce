@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/firebase'
+import { auth, db } from '@/firebase'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 const provider = new GoogleAuthProvider()
 
@@ -8,27 +9,44 @@ export const useAccountStore = defineStore('account', {
     state: () => ({
         isLoggedIn: false,
         isAdmin: false,
-        user: {}
+        user: {},
+        profile: {}
     }),
     actions: {
         async checkAuth() {
             return new Promise((resolve) => {
-                onAuthStateChanged(auth, (user) => {
+                onAuthStateChanged(auth,async (user) => {
                     if (user) {
                         // User is signed in, see docs for a list of available properties
                         // https://firebase.google.com/docs/reference/js/auth.user
                         this.user = user
-                        this.isLoggedIn = true
 
+                        const docRef = doc(db, 'users', user.uid)
+                        const docSnap = await getDoc(docRef)
+
+                        if (docSnap.exists()) {
+                            this.profile = docSnap.data()
+                        }
+                        else {
+                            const newUser = {
+                                name: user.displayName,
+                                role: 'member',
+                                status: 'active',
+                                updateAt: new Date()
+                            }
+                            await setDoc(docRef, newUser)
+                            this.profile = newUser
+                        }
                         //edit later
-                        if (this.user.email === 'admin@test.com') {
+                        if (this.profile.role === 'admin') {
                             this.isAdmin = true
                         }
+                        this.isLoggedIn = true
                         resolve(true)
                     } else {
                         resolve(false)
                     }
-                });
+                })
             })
         },
         async signInwWithGoogle() {
@@ -45,7 +63,9 @@ export const useAccountStore = defineStore('account', {
                 const result = await signInWithEmailAndPassword(auth, email, password)
                 this.isLoggedIn = true
                 this.user = result.user
-                this.isAdmin = true
+                if (this.profile.role === 'admin') {
+                    this.isAdmin = true
+                }
             } catch (error) {
                 switch (error.code) {
                     case 'auth/invalid-email':
