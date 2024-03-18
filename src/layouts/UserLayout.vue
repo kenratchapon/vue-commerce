@@ -1,11 +1,9 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
 import {ref, onMounted,reactive,watch} from 'vue'
-import { useCartStore } from '@/stores/user/cart'
-import { useAccountStore } from '@/stores/account'
+import { useCartStore } from '@/stores/user/cart';
 
 const cartStore = useCartStore()
-const accountStore = useAccountStore()
 
 const isLoggedIn = ref(false)
 const searchText = ref('')
@@ -15,22 +13,18 @@ const userData = reactive({
   imageUrl: '',
 })
 
-const login = async () =>{
-    try {
-        await accountStore.signInwWithGoogle()
-    } catch (error) {
-        console.log('error', error)
-    }
+const login = () =>{
+    isLoggedIn.value=true
+    localStorage.setItem('isLoggedIn', true)
 }
-const logout = async () =>{
-    try {
-        await accountStore.logout()
-    } catch (error) {
-        console.log('error', error)
-    }
-    window.location.reload()
+const logout = () =>{
+    isLoggedIn.value=false
+    localStorage.removeItem('isLoggedIn')
 }
 onMounted(()=>{
+    if(localStorage.getItem('isLoggedIn')){
+        isLoggedIn.value = true
+    }
     const savedUserProfile = localStorage.getItem('user-profile')
     if (savedUserProfile) {
         const userProfile = JSON.parse(savedUserProfile)
@@ -82,8 +76,8 @@ const handleSearch = (event) =>{
                             </div>
                         </div>
                     </div>
-                    <button v-if="!accountStore.isLoggedIn" class="btn btn-ghost" @click="login()">Login</button>
-                    <div v-if="accountStore.isLoggedIn" class="dropdown dropdown-end">
+                    <button v-if="!isLoggedIn" class="btn btn-ghost" @click="login()">Login</button>
+                    <div v-if="isLoggedIn" class="dropdown dropdown-end">
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                             <div class="w-10 rounded-full">
                                 <img alt="Tailwind CSS Navbar component"

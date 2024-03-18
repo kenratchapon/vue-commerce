@@ -10,9 +10,6 @@
   },
   "dependencies": {
     "apexcharts": "^3.45.1",
-    "firebase": "^10.9.0",
-    "firebase-cli": "^1.2.0",
-    "firebase-tools": "^13.0.3",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
