@@ -14,6 +14,7 @@
     cartStore.addToCart(product)
     router.push('/cart')
   }
+  console.log('productStore', productStore.list)
 </script>
 
 <template>
