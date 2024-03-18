@@ -16,6 +16,8 @@ import AdminProductUpdate from '@/views/admin/product/UpdateView.vue'
 import AdminOrderDetail from '@/views/admin/order/DetailView.vue'
 import AdminOrderList from '@/views/admin/order/ListView.vue'
 
+import { useAccountStore } from '@/stores/account'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -52,7 +54,7 @@ const router = createRouter({
     //admin router
     {
       path: '/admin/login',
-      name: 'admin-login',
+      name: 'login',
       component: AdminLogin
     },
     {
@@ -96,6 +98,19 @@ const router = createRouter({
       component: AdminOrderList
     },
   ]
+})
+
+router.beforeEach(async(to,from,next)=>{
+  const accountStore = useAccountStore()
+  await accountStore.checkAuth()
+  if(to.name.includes('admin') && !accountStore.isAdmin){
+    next({name: 'home'})
+  }else if(to.name === 'login' && accountStore.isAdmin){
+    next({name: 'admin-dashboard'})
+  }
+  else{
+    next()
+  }
 })
 
 export default router

@@ -1,13 +1,28 @@
 <script setup>
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 import { onMounted,ref } from 'vue';
+import { useAccountStore } from '@/stores/account';
+
+const accountStore = useAccountStore()
 
 const activeMenu = ref('')
 const route = useRoute()
+const router = useRouter()
+
 
 onMounted(()=>{
     activeMenu.value = route.name
 })
+
+const logout = async() =>{
+    try {
+        await accountStore.logout()
+        router.push({name:'login'})
+    } catch (error) {
+        console.log('error', error)
+    }
+
+}
 const menus = [
     {
         name: 'DashBoard',
@@ -24,11 +39,7 @@ const menus = [
     {
         name: 'User',
         routeName: 'admin-users-list',
-    },
-    {
-        name: 'Logout',
-        routeName: 'admin-login',
-    },
+    }
 ]
 </script>
 <template>
@@ -47,6 +58,9 @@ const menus = [
                     <RouterLink :class=" menu.routeName === activeMenu ? 'active' : ''" :to="{name: menu.routeName}">
                         {{menu.name}}
                     </RouterLink>
+                </li>
+                <li>
+                    <a @click="logout">Logout</a>
                 </li>
             </ul>
         </div>
